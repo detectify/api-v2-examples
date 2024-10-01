@@ -71,13 +71,18 @@ def main():
 
     if args.domain:
         for domain in args.domain:
-            delete_asset(assets[domain], domain, args.key)
+            if domain in assets:
+                delete_asset(assets[domain], domain, args.key)
+            else:
+                print(f'Domain {domain} not found in assets, skipping.')
 
     if args.file:
-        with open(args.domain_file) as domains_to_delete:
+        with open(args.file) as domains_to_delete:
             for domain in domains_to_delete.read().splitlines():
-                delete_asset(assets[domain], domain, args.key)
-
+                if domain in assets:
+                    delete_asset(assets[domain], domain, args.key)
+            else:
+                print(f'Domain {domain} not found in assets, skipping.')
 
 if __name__ == '__main__':
     main()
